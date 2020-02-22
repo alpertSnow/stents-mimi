@@ -20,8 +20,10 @@ for (i in items){
         i.quant <- paste0(i, '.quant')
         i.price <- paste0(i, '.price')
         grouped <- group_by(dataSheet, dataSheet[, 1])
-        sumproducts <- summarise(grouped, sumproduct = sum(eval(parse(text = i.quant)) * eval(parse(text = i.price))))
-        output <- cbind(output, sumproducts[,2])
+        mean_price <- summarise(grouped, 
+                                mean_price = sum(eval(parse(text = i.quant)) * eval(parse(text = i.price)) 
+                                                  / sum(eval(parse(text = i.quant)))))
+        output <- cbind(output, mean_price[,2])
 }
 colnames(output) <- c(colnames(headers)[1], items.chn)
 
